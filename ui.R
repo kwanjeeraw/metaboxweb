@@ -8,7 +8,7 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                 shinyjs::useShinyjs(),
                 shinyjs::extendShinyjs(text = app_jscode, functions = c('disableTab','enableTab')),
                 extendShinyjs(text = reset_all_evenData, functions = c("resetSelected")),
-                navbarPage(windowTitle="Metabox 2.0",img(src="metabox2.png",width=105), id="tabs",
+                navbarPage(windowTitle="Metabox 2.0",img(src="www/metabox2.png",width=105), id="tabs",
 
                            ###################################################################
                            ############################HOME PAGE##############################
@@ -17,7 +17,7 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                                     tags$div(HTML("<h2><center>WELCOME TO <b>METABOX</b> 2.0 </center></h2>"), class = "header"),
                                     tags$div(HTML("<h5><center>A toolbox for thorough metabolomic data analysis, integration and interpretation</center></h5>"),class = "header"),
                                     br(),br(),
-                                    HTML('<center><img src="first_pipeline.png" width="1150" height = "450" ></center>'),
+                                    HTML('<center><img src="www/first_pipeline.png" width="1150" height = "450" ></center>'),
                                     br(), br(), hr(),
                                     fluidRow(
                                       column(1),
