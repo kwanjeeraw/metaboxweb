@@ -20,3 +20,24 @@ reset_all_evenData <-
                               Shiny.setInputValue('plotly_selected-pca_N', 'null', {priority: 'event'});
                               Shiny.setInputValue('plotly_click-A', 'null', {priority: 'event'});
                                                                           }"
+
+library(shiny)
+library(shinydashboard)
+library(shinyjs)
+library(dplyr)
+#library(MUVR)
+library(V8)
+library(DT)
+library(ggplot2)
+library(RColorBrewer)
+library(plotly)
+library(ggthemes)
+library(shinythemes)
+library(bslib)
+library(stringr)
+library(shinybusy)
+library(shinyWidgets)
+library(ade4)
+library(packMBPLSDA)
+library(gridExtra)
+library(metabox2)
