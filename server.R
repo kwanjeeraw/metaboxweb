@@ -3745,16 +3745,18 @@ server = function(input, output, session) {
 
   ex_mis <- function(){
     if(!is.null(metboshow$metbo_missing)){
-      generate_report(metboshow$metbo_missing,reportfile="impute_data_report")
+      #generate_report(metboshow$metbo_missing,reportfile="impute_data_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_missing$details)), file="impute_data_report.csv")
       write.csv(cbind(metboshow$metbo_missing$inputdata[,1:metboshow$firstV-1],metboshow$metbo_missing$X),"imputed_output_table.csv")
-      files <- c("impute_data_report.pdf","imputed_output_table.csv")
+      files <- c("impute_data_report.csv","imputed_output_table.csv")
       return(files)
     }else(return(NULL))
   }
 
   ex_ISnorm <- function(){
     if(!is.null(metboshow$metbo_QCnorm)){
-      generate_report(metboshow$metbo_QCnorm,reportfile="normalize_byqc_report")
+      #generate_report(metboshow$metbo_QCnorm,reportfile="normalize_byqc_report") #server permission
+      write.csv(metboshow$metbo_QCnorm$details, file="normalize_byqc_report.csv")
       write.csv(cbind(metboshow$metbo_QCnorm$inputdata[,1:metboshow$firstV-1],metboshow$metbo_QCnorm$X),"ISQC_normalization_output_table.csv")
       dt_plot = list();
       dt_plot[['pca1']] = pcaplot_overview(metboshow$keepValueN, scale=FALSE, plot_title="Before normalization")
@@ -3780,15 +3782,18 @@ server = function(input, output, session) {
     if(!is.null(metboshow$keepValueMP)){
       dt_plot = list();
       if(!is.null(metboshow$metbo_norm)){
-        generate_report(metboshow$metbo_norm,reportfile="normalize_bydata_report")
+        #generate_report(metboshow$metbo_norm,reportfile="normalize_bydata_report") #server permission
+        write.csv(data.frame(details=unlist(metboshow$metbo_norm$details)), file="normalize_bydata_report.csv")
       }
       if(!is.null(metboshow$metbo_tran)){
-        generate_report(metboshow$metbo_tran,reportfile="transform_data_report")
+        #generate_report(metboshow$metbo_tran,reportfile="transform_data_report") #server permission
+        write.csv(data.frame(details=unlist(metboshow$metbo_tran$details)), file="transform_data_report.csv")
       }
       write.csv(cbind(metboshow$keepValueMP$inputdata[,1:metboshow$firstV-1],metboshow$keepValueMP$X),"Data_normalization_output_table.csv")
       dt_plot[['pca1']] = pcaplot_overview(metboshow$keepValueDP,scale=FALSE, plot_title="Before normalization")
       if(!is.null(metboshow$metbo_scal)){
-        generate_report(metboshow$metbo_scal,reportfile="scale_data_report")
+        #generate_report(metboshow$metbo_scal,reportfile="scale_data_report") #server permission
+        write.csv(data.frame(details=unlist(metboshow$metbo_scal$details)), file="scale_data_report.csv")
         dt_plot[['pca2']] = pcaplot_overview(metboshow$keepValueMP,scale=FALSE, plot_title="After normalization")
       }
       if(is.null(metboshow$metbo_scal)){
@@ -3810,13 +3815,13 @@ server = function(input, output, session) {
              marrangeGrob(grobs = dt_plot, nrow=1, ncol=2, as.table=TRUE), dpi = 600, units = "in", width = 18, height = 10, device = "pdf")
       files <- c("Data_normalization_output_table.csv","Data_normalization_output_figure.pdf")
       if(!is.null(metboshow$metbo_norm)){
-        files <- c(files,"normalize_bydata_report.pdf")
+        files <- c(files,"normalize_bydata_report.csv")
       }
       if(!is.null(metboshow$metbo_tran)){
-        files <- c(files,"transform_data_report.pdf")
+        files <- c(files,"transform_data_report.csv")
       }
       if(!is.null(metboshow$metbo_scal)){
-        files <- c(files,"scale_data_report.pdf")
+        files <- c(files,"scale_data_report.csv")
       }
       return(files)
     }else{
@@ -3872,7 +3877,8 @@ server = function(input, output, session) {
   ######export uni analyze######
   ex_uni <- function(){
     if(!is.null(metboshow$metbo_uni)){
-      generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_uni,reportfile="univariate_report")
+      #generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_uni,reportfile="univariate_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_uni$details)), file="univariate_report.csv")
       f1inx = grep("adjusted_pvalue", colnames(metboshow$univ_merge_table))[1]
       pvtb = data.frame(metboshow$univ_merge_table[,f1inx], row.names = metboshow$univ_merge_table$variable)
       pvtb = pvtb[order(pvtb),, drop=FALSE]
@@ -3884,7 +3890,7 @@ server = function(input, output, session) {
       else{
         write.csv(metboshow$poshoc_merge_table,"Univariate_analysis_output_table.csv",row.names = T)
       }
-      files <- c("Univariate_analysis_output_figure.pdf","univariate_report.pdf","Univariate_analysis_output_table.csv")
+      files <- c("Univariate_analysis_output_figure.pdf","univariate_report.csv","Univariate_analysis_output_table.csv")
       return(files)
     }else{
       return(NULL)
@@ -3925,7 +3931,8 @@ server = function(input, output, session) {
   ######export multi analyze######
   ex_multi <- function(){
     if(!is.null(metboshow$metbo_multi)){
-      generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_multi,reportfile="multivariate_report")
+      #generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_multi,reportfile="multivariate_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_multi$details)), file="multivariate_report.csv")
       write.csv(metboshow$mul_table,"Multivariate_analysis_output_table.csv")
       dt_plot = list();
       if((input$multiM == "pca" || input$multiM == "pls") && ncol(metboshow$metbo_multi$score_val) > 1 && input$MULScorePC2 != "NA"){#pca or pls
@@ -3954,7 +3961,7 @@ server = function(input, output, session) {
       }
       ggsave("Multivariate_analysis_output_figure.pdf",
              marrangeGrob(grobs = dt_plot, nrow=1, ncol=1, as.table=TRUE), dpi = 600, units = "in", width = 11, height = 7, device = "pdf")
-      files <- c("multivariate_report.pdf","Multivariate_analysis_output_table.csv","Multivariate_analysis_output_figure.pdf")
+      files <- c("multivariate_report.csv","Multivariate_analysis_output_table.csv","Multivariate_analysis_output_figure.pdf")
       return(files)
     }else{
       return(NULL)}
@@ -3994,10 +4001,11 @@ server = function(input, output, session) {
   ######export corr analyze######
   ex_corr <- function(){
     if(!is.null(metboshow$metbo_corr)){
-      generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_corr,reportfile="correlation_report")
+      #generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_corr,reportfile="correlation_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_corr$details)), file="correlation_report.csv")
       ggsave("corrplot_heatmap.pdf",corrplot_heatmap(metboshow$metbo_corr$corr_data, plot_title="Correlation heatmap"), dpi = 600, units = "in", device = "pdf", width = 10, height = 10)
       write.csv(data.frame(metboshow$metbo_corr$corr_data),"Result_table_correlation.csv")
-      files <- c("correlation_report.pdf","corrplot_heatmap.pdf","Result_table_correlation.csv")
+      files <- c("correlation_report.csv","corrplot_heatmap.pdf","Result_table_correlation.csv")
       return(files)
     }else{
       return(NULL)}
@@ -4038,9 +4046,10 @@ server = function(input, output, session) {
   ######export lme analyze######
   ex_lme <- function(){
     if(!is.null(metboshow$metbo_lme)){
-      generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_lme,reportfile="lme_report")
+      #generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_lme,reportfile="lme_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_lme$details)), file="lme_report.csv")
       write.csv(data.frame(metboshow$metbo_lme$testTable),"Result_table_lme.csv")
-      files <- c("lme_report.pdf","Result_table_lme.csv")
+      files <- c("lme_report.csv","Result_table_lme.csv")
       return(files)
     }else{
       return(NULL)}
@@ -4081,7 +4090,8 @@ server = function(input, output, session) {
   ######export muvr analyze######
   ex_muvr <- function(){
     if(!is.null(metboshow$metbo_ml)){
-      generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_ml,reportfile="biomarker_report")
+      #generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_ml,reportfile="biomarker_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_ml$details)), file="biomarker_report.csv")
       write.csv(MUVR_getvip(metboshow$metbo_ml,model="min"),"Result_table_biomarker_min_model.csv")
       write.csv(MUVR_getvip(metboshow$metbo_ml,model="mid"),"Result_table_biomarker_mid_model.csv")
       write.csv(MUVR_getvip(metboshow$metbo_ml,model="max"),"Result_table_biomarker_max_model.csv")
@@ -4092,7 +4102,7 @@ server = function(input, output, session) {
       dt_plot[['plotvip_max']] = MUVR_plotvip(metboshow$metbo_ml,model="max",plot_title="VIP plot of max-optimal model")
       ggsave("Biomarker_analysis_output_figure.pdf",
              marrangeGrob(grobs = dt_plot, nrow=1, ncol=1, as.table=TRUE), dpi = 600, units = "in", width = 11, height = 7, device = "pdf")
-      files <- c("biomarker_report.pdf","Result_table_biomarker_min_model.csv","Result_table_biomarker_mid_model.csv","Result_table_biomarker_max_model.csv","Biomarker_analysis_output_figure.pdf")
+      files <- c("biomarker_report.csv","Result_table_biomarker_min_model.csv","Result_table_biomarker_mid_model.csv","Result_table_biomarker_max_model.csv","Biomarker_analysis_output_figure.pdf")
       return(files)
     }else{
       return(NULL)}
@@ -4129,7 +4139,8 @@ server = function(input, output, session) {
   #######export MBPLS-DA#####
   ex_mbpls <- function(){
     if(!is.null(metboshow$metbo_mbpl)){
-      generate_report(metboshow$metbo_mbpl,datsummary1=metboshow$metbo_mbpl,reportfile="integrative_report")
+      #generate_report(metboshow$metbo_mbpl,datsummary1=metboshow$metbo_mbpl,reportfile="integrative_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_mbpl$details)), file="integrative_report.csv")
       dt_plot = list();
       dt_plot[['plotscree']] = mbplsda_screeplot(metboshow$metbo_mbpl$result$base_model$eig,plot_title="Scree plot")
       if(metboshow$MBPLtest){
@@ -4150,7 +4161,7 @@ server = function(input, output, session) {
       }
       ggsave("Integrative_analysis_output_figure.pdf",
              marrangeGrob(grobs = dt_plot, nrow=1, ncol=1, as.table=TRUE), dpi = 450, units = "in", width = 11, height = 7, device = "pdf")
-      files <- c("integrative_report.pdf","Integrative_analysis_output_figure.pdf","Result_table_integrative_vip.csv","Result_table_integrative_bip.csv",file_loading)
+      files <- c("integrative_report.csv","Integrative_analysis_output_figure.pdf","Result_table_integrative_vip.csv","Result_table_integrative_bip.csv",file_loading)
       return(files)
     }else{
       return(NULL)}
@@ -4174,9 +4185,10 @@ server = function(input, output, session) {
   ######export ora######
   ex_opa <- function(){
     if(!is.null(metboshow$metbo_overr)){
-      generate_report(datsummary1=metboshow$metbo_overr,reportfile="overrep_report")
+      #generate_report(datsummary1=metboshow$metbo_overr,reportfile="overrep_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_overr$details)), file="overrep_report.csv")
       write.csv(data.frame(metboshow$metbo_overr$enrichment),"Result_table_overrepresentation.csv")
-      files <- c("overrep_report.pdf","Result_table_overrepresentation.csv")
+      files <- c("overrep_report.csv","Result_table_overrepresentation.csv")
       return(files)
     }else{
       return(NULL)}
@@ -4202,9 +4214,10 @@ server = function(input, output, session) {
   ######export enr######
   ex_enr <- function(){
     if(!is.null(metboshow$metbo_enr)){
-      generate_report(datsummary1=metboshow$metbo_enr,reportfile="enrichment_report")
+      #generate_report(datsummary1=metboshow$metbo_enr,reportfile="enrichment_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_enr$details)), file="enrichment_report.csv")
       write.csv(data.frame(metboshow$metbo_enr$enrichment),"Result_table_enrichment.csv")
-      files <- c("enrichment_report.pdf","Result_table_enrichment.csv")
+      files <- c("enrichment_report.csv","Result_table_enrichment.csv")
       return(files)
     }else{
       return(NULL)}
@@ -4230,9 +4243,10 @@ server = function(input, output, session) {
   ######export cora######
   ex_cora <- function(){
     if(!is.null(metboshow$metbo_cORA)){
-      generate_report(datsummary1=metboshow$metbo_cORA,reportfile="comb_overrep_report")
+      #generate_report(datsummary1=metboshow$metbo_cORA,reportfile="comb_overrep_report") #server permission
+      write.csv(data.frame(details=unlist(metboshow$metbo_cORA$details)), file="comb_overrep_report.csv")
       write.csv(data.frame(metboshow$metbo_cORA$enrichment),"Result_table_integratedORA.csv")
-      files <- c("comb_overrep_report.pdf","Result_table_integratedORA.csv")
+      files <- c("comb_overrep_report.csv","Result_table_integratedORA.csv")
       return(files)
     }else{
       return(NULL)}
