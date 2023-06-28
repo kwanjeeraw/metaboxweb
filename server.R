@@ -4144,7 +4144,7 @@ server = function(input, output, session) {
   ex_mbpls <- function(){
     if(!is.null(metboshow$metbo_mbpl)){
       #generate_report(metboshow$metbo_mbpl,datsummary1=metboshow$metbo_mbpl,reportfile="integrative_report") #server permission
-      #write.csv(data.frame(details=unlist(metboshow$metbo_mbpl$details)), file="integrative_report.csv")
+      write.csv(data.frame(details=unlist(metboshow$metbo_mbpl$details[-length(metboshow$metbo_mbpl$details)])), file="integrative_report.csv")
       dt_plot = list();
       dt_plot[['plotscree']] = mbplsda_screeplot(metboshow$metbo_mbpl$result$base_model$eig,plot_title="Scree plot")
       if(metboshow$MBPLtest){
@@ -4165,8 +4165,7 @@ server = function(input, output, session) {
       }
       ggsave("Integrative_analysis_output_figure.pdf",
              marrangeGrob(grobs = dt_plot, nrow=1, ncol=1, as.table=TRUE), dpi = 450, units = "in", width = 11, height = 7, device = "pdf")
-      files <- c(#"integrative_report.csv",
-                 "Integrative_analysis_output_figure.pdf","Result_table_integrative_vip.csv","Result_table_integrative_bip.csv",file_loading)
+      files <- c("integrative_report.csv","Integrative_analysis_output_figure.pdf","Result_table_integrative_vip.csv","Result_table_integrative_bip.csv",file_loading)
       return(files)
     }else{
       return(NULL)}
