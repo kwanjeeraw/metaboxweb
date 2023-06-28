@@ -1368,33 +1368,34 @@ server = function(input, output, session) {
     req(metboshow$metbo_uni)
     isolate({
       if(!is.null(metboshow$metbo_uni)){
-
         shinyjs::show("UNIplotTab")
         shinyjs::show("UNIoutput")
-        fcinx = grepl("_fc", colnames(metboshow$metbo_uni$stat_summ)) #get fold change column
-        fcdf = as.data.frame(metboshow$metbo_uni$stat_sum[,fcinx],row.names = row.names(metboshow$metbo_uni$stat_sum)) #set fold change data frame
-        colnames(fcdf) = colnames(metboshow$metbo_uni$stat_sum)[fcinx]
+        #fcinx = grepl("_fc", colnames(metboshow$metbo_uni$stat_summ)) #get fold change column
+        #fcdf = as.data.frame(metboshow$metbo_uni$stat_sum[,fcinx],row.names = row.names(metboshow$metbo_uni$stat_sum)) #set fold change data frame
+        #colnames(fcdf) = colnames(metboshow$metbo_uni$stat_sum)[fcinx]
         if(input$factor2Col == "FALSE"){
-          pval_dt = cbind(pvalue = metboshow$metbo_uni$p_value, adjusted_pvalue = metboshow$metbo_uni$p_adj) #set pval data frame
+          pval_dt = data.frame(variable = names(metboshow$metbo_uni$p_value), pvalue = metboshow$metbo_uni$p_value, adjusted_pvalue = metboshow$metbo_uni$p_adj) #set pval data frame
         }else{
-          pval_dt = merge(t(metboshow$metbo_uni$p_value), t(metboshow$metbo_uni$p_adj), by=0,sort=F, suffixes=c(".pvalue",".adjusted_pvalue"))[,-1]
+          pval_dt = merge(t(metboshow$metbo_uni$p_value), t(metboshow$metbo_uni$p_adj), by=0,sort=FALSE, suffixes=c(".pvalue",".adjusted_pvalue"))
+          colnames(pval_dt)[1] = "variable"
           row.names(pval_dt) = row.names(metboshow$metbo_uni$stat_summ)
         }
-        metboshow$univ_merge_table = as.data.frame(merge(pval_dt,fcdf, by=0, sort=FALSE)) #set univariate output table
-        colnames(metboshow$univ_merge_table)[1] = "variable"
+        #metboshow$univ_merge_table = as.data.frame(merge(pval_dt,fcdf, by=0, sort=FALSE)) #set univariate output table
+        metboshow$univ_merge_table = pval_dt #set univariate output table
         if(metboshow$metbo_uni$details$posthocTest == "No test"){
           output$INtableUNI <- DT::renderDataTable({metboshow$univ_merge_table})
         }else{
           poshoc_dt = get_posthoc_summary(metboshow$metbo_uni) #set post hoc table
-          poshocdf = data.frame(variable=rownames(poshoc_dt),significant=poshoc_dt$significant)
-          metboshow$poshoc_merge_table <-as.data.frame(merge(metboshow$univ_merge_table,poshocdf,sort=FALSE))
+          poshocdf = data.frame(variable=rownames(poshoc_dt),poshoc_dt, check.names = FALSE)
+          metboshow$poshoc_merge_table_export <- as.data.frame(merge(metboshow$univ_merge_table,poshocdf,sort=FALSE)) #export file
+          metboshow$poshoc_merge_table <- metboshow$poshoc_merge_table_export
           metboshow$poshoc_merge_table$significant <- case_when(nchar(metboshow$poshoc_merge_table$significant) > 100 ~
                                                                   paste(str_sub(metboshow$poshoc_merge_table$significant, 1, 100), "..."),
                                                                 nchar(metboshow$poshoc_merge_table$significant) <= 100 ~
                                                                   metboshow$poshoc_merge_table$significant)
-
+          sigindx = grep("significant", colnames(metboshow$poshoc_merge_table))[1]
           output$INtableUNI <- DT::renderDataTable({
-            metboshow$poshoc_merge_table
+            metboshow$poshoc_merge_table[,1:sigindx]
           })
         }
       }else{
@@ -1424,13 +1425,16 @@ server = function(input, output, session) {
           }
           Sys.sleep(1)
           if(input$factor2Col == "FALSE"){
-            filtpv = data.frame(sort(metboshow$metbo_uni$p_adj)[(1:length(metboshow$metbo_uni$p_adj))<=100])
+            f1inx = grep("adjusted_pvalue", colnames(metboshow$univ_merge_table))[1]
+            pvtb = data.frame(adjusted_pvalue=metboshow$univ_merge_table[,f1inx], row.names = metboshow$univ_merge_table$variable)
+            pvtb = pvtb[order(pvtb$adjusted_pvalue),,drop=F]
+            filtpv = head(pvtb,n=100)
             p_uni <- ggplotly(pvalplot_overview(filtpv,plot_title = "Statistical significance plot"))
 
           }else{
             f1inx = grep("adjusted_pvalue", colnames(metboshow$univ_merge_table))[1]
-            pvtb = data.frame(metboshow$univ_merge_table[,f1inx], row.names = metboshow$univ_merge_table$variable)
-            pvtb = pvtb[order(pvtb),, drop=FALSE]
+            pvtb = data.frame(adjusted_pvalue=metboshow$univ_merge_table[,f1inx], row.names = metboshow$univ_merge_table$variable)
+            pvtb = pvtb[order(pvtb$adjusted_pvalue),,drop=F]
             filtpv = head(pvtb,n=100)
             p_uni <- ggplotly(pvalplot_overview(filtpv,plot_title = "Statistical significance plot"))
           }
@@ -3756,7 +3760,7 @@ server = function(input, output, session) {
   ex_ISnorm <- function(){
     if(!is.null(metboshow$metbo_QCnorm)){
       #generate_report(metboshow$metbo_QCnorm,reportfile="normalize_byqc_report") #server permission
-      write.csv(metboshow$metbo_QCnorm$details, file="normalize_byqc_report.csv")
+      write.csv(data.frame(details=unlist(metboshow$metbo_QCnorm$details)), file="normalize_byqc_report.csv")
       write.csv(cbind(metboshow$metbo_QCnorm$inputdata[,1:metboshow$firstV-1],metboshow$metbo_QCnorm$X),"ISQC_normalization_output_table.csv")
       dt_plot = list();
       dt_plot[['pca1']] = pcaplot_overview(metboshow$keepValueN, scale=FALSE, plot_title="Before normalization")
@@ -3771,7 +3775,7 @@ server = function(input, output, session) {
       dt_plot[['dens_samp2']] = densityplot_overview(metboshow$metbo_QCnorm$X, plotvar=FALSE, plot_title="After normalization (samples)")
       ggsave("ISQC_normalization_output_figure.pdf",
              marrangeGrob(grobs = dt_plot, nrow=1, ncol=2, as.table=TRUE), dpi = 600, units = "in", width = 18, height = 10, device = "pdf")
-      files <- c("normalize_byqc_report.pdf","ISQC_normalization_output_table.csv","ISQC_normalization_output_figure.pdf")
+      files <- c("normalize_byqc_report.csv","ISQC_normalization_output_table.csv","ISQC_normalization_output_figure.pdf")
       return(files)
     }else{
       return(NULL)
@@ -3878,10 +3882,10 @@ server = function(input, output, session) {
   ex_uni <- function(){
     if(!is.null(metboshow$metbo_uni)){
       #generate_report(metboshow$keepValueM,datsummary1=metboshow$metbo_uni,reportfile="univariate_report") #server permission
-      write.csv(data.frame(details=unlist(metboshow$metbo_uni$details)), file="univariate_report.csv")
+      write.csv(metboshow$metbo_uni$details, file="univariate_report.csv")
       f1inx = grep("adjusted_pvalue", colnames(metboshow$univ_merge_table))[1]
-      pvtb = data.frame(metboshow$univ_merge_table[,f1inx], row.names = metboshow$univ_merge_table$variable)
-      pvtb = pvtb[order(pvtb),, drop=FALSE]
+      pvtb = data.frame(adjusted_pvalue=metboshow$univ_merge_table[,f1inx], row.names = metboshow$univ_merge_table$variable)
+      pvtb = pvtb[order(pvtb$adjusted_pvalue),,drop=F]
       filtpv = head(pvtb,n=100)
       ggsave("Univariate_analysis_output_figure.pdf", pvalplot_overview(filtpv, plot_title = "Statistical significance plot"), dpi = 600, units = "in", device = "pdf", width = 12, height = 6)
       if(metboshow$metbo_uni$details$posthocTest == "No test"){
@@ -3890,7 +3894,7 @@ server = function(input, output, session) {
       else{
         write.csv(metboshow$poshoc_merge_table,"Univariate_analysis_output_table.csv",row.names = T)
       }
-      files <- c("Univariate_analysis_output_figure.pdf","univariate_report.csv","Univariate_analysis_output_table.csv")
+      files <- c("univariate_report.csv","Univariate_analysis_output_figure.pdf","Univariate_analysis_output_table.csv")
       return(files)
     }else{
       return(NULL)
