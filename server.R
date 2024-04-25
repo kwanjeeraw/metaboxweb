@@ -2,14 +2,15 @@ server = function(input, output, session) {
 
   options(DT.options = list(pageLength = 20)) #Global option for dt-table output
 
-  metabox_report_dir <- paste0(tempdir(),"/Metabox_report_",format(Sys.time(),"%Y%m%d%H%M%S"),"/") #Create new Metabox_report on new connections
-  if(!dir.exists(metabox_report_dir)){
+  #Create new Metabox_report on new connections
+  metabox_report_dir <- paste0(tempdir(),"/Metabox_report_",format(Sys.time(),"%Y%m%d%H%M%S"),"/")
+  #if(!dir.exists(metabox_report_dir)){
     dir.create(metabox_report_dir)
-  }
-  if(dir.exists(metabox_report_dir)){
+  #}
+  #if(dir.exists(metabox_report_dir)){
     setwd(metabox_report_dir)
-    tempdir <- getwd()
-  }
+    #tempdir <- getwd()
+  #}
 
   ##ClearValues###
   clear_all <- function(Inte = NULL, Inter = FALSE){
