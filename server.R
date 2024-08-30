@@ -5,11 +5,11 @@ server = function(input, output, session) {
   #Create new Metabox_report on new connections
   metabox_report_dir <- paste0(tempdir(),"/Metabox_report_",format(Sys.time(),"%Y%m%d%H%M%S"),"/")
   #if(!dir.exists(metabox_report_dir)){
-    dir.create(metabox_report_dir)
+  dir.create(metabox_report_dir)
   #}
   #if(dir.exists(metabox_report_dir)){
-    setwd(metabox_report_dir)
-    #tempdir <- getwd()
+  setwd(metabox_report_dir)
+  #tempdir <- getwd()
   #}
 
   ##ClearValues###
