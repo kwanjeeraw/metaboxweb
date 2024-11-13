@@ -877,7 +877,7 @@ server = function(input, output, session) {
       })
 
       output$plotQCoverOri <- renderPlotly({
-        p_isO <- ggplotly(pcaplot_overview(metboshow$keepValueN,scale=FALSE, plot_title="Before normalization"), source = 'pca_isO')
+        p_isO <- ggplotly(pcaplot_overview(metboshow$keepValueN,scale=FALSE, plot_title="Before processing", legend_title=""), source = 'pca_isO')
         p_isO %>%
           layout(dragmode = "select") %>%
           event_register("plotly_selected")
@@ -890,9 +890,9 @@ server = function(input, output, session) {
       })
 
       #output$plotQCboxOri <- renderPlotly({ggplotly(boxplot_overview(metboshow$keepValueN$X[,1:ncol(metboshow$keepValueN$X)<=50]))})
-      output$plotQCboxOriS <- renderPlot({rlaplot_overview(metboshow$keepValueN, limitx = TRUE, dolog = TRUE, plot_title="Before normalization")})
-      output$plotQCdenOri <- renderPlot({densityplot_overview(metboshow$keepValueN$X, plot_title="Before normalization densityplot plot (variables)")})
-      output$plotQCdenOriS <- renderPlot({densityplot_overview(metboshow$keepValueN$X, plotvar=FALSE, plot_title="Before normalization densityplot plot (samples)")})
+      output$plotQCboxOriS <- renderPlot({rlaplot_overview(metboshow$keepValueN, limitx = TRUE, dolog = TRUE, plot_title="Before processing", legend_title="")})
+      output$plotQCdenOri <- renderPlot({densityplot_overview(metboshow$keepValueN$X, plot_title="Before processing densityplot plot (variables)")})
+      output$plotQCdenOriS <- renderPlot({densityplot_overview(metboshow$keepValueN$X, plotvar=FALSE, plot_title="Before processing densityplot plot (samples)")})
 
       output$plotQCover <- renderPlotly({
         isolate({
@@ -904,7 +904,7 @@ server = function(input, output, session) {
           }
           Sys.sleep(1)
         })
-        p_is <- ggplotly(pcaplot_overview(metboshow$metbo_QCnorm,scale=FALSE, plot_title="After normalization"), source = 'pca_is')
+        p_is <- ggplotly(pcaplot_overview(metboshow$metbo_QCnorm,scale=FALSE, plot_title="After processing", legend_title=""), source = 'pca_is')
         p_is %>%
           layout(dragmode = "select") %>%
           event_register("plotly_selected")
@@ -928,7 +928,7 @@ server = function(input, output, session) {
           }
           Sys.sleep(1)
         })
-        rlaplot_overview(metboshow$metbo_QCnorm, limitx = TRUE, dolog = TRUE, plot_title="After normalization")})
+        rlaplot_overview(metboshow$metbo_QCnorm, limitx = TRUE, dolog = TRUE, plot_title="After processing", legend_title="")})
       output$plotQCden <- renderPlot({
         isolate({
           progress <- shiny::Progress$new()
@@ -939,8 +939,8 @@ server = function(input, output, session) {
           }
           Sys.sleep(1)
         })
-        densityplot_overview(metboshow$metbo_QCnorm$X, plot_title="After normalization densityplot plot (variables)")})
-      output$plotQCdenS <- renderPlot({densityplot_overview(metboshow$metbo_QCnorm$X, plotvar=FALSE, plot_title="After normalization densityplot plot (samples)")})
+        densityplot_overview(metboshow$metbo_QCnorm$X, plot_title="After processing densityplot plot (variables)")})
+      output$plotQCdenS <- renderPlot({densityplot_overview(metboshow$metbo_QCnorm$X, plotvar=FALSE, plot_title="After processing densityplot plot (samples)")})
     }else{
       shinyjs::hide("QCsummary")
       shinyjs::hide("QCplotTab")
@@ -1138,7 +1138,7 @@ server = function(input, output, session) {
 
 
       output$plotNoverOri <- renderPlotly({
-        p_NO <-ggplotly(pcaplot_overview(metboshow$keepValueDP, scale=FALSE, plot_title="Before normalization"), source = 'pca_NO')
+        p_NO <-ggplotly(pcaplot_overview(metboshow$keepValueDP, scale=FALSE, plot_title="Before processing", legend_title=""), source = 'pca_NO')
         p_NO %>%
           layout(dragmode = "select") %>%
           event_register("plotly_selected")
@@ -1161,7 +1161,7 @@ server = function(input, output, session) {
             }
             Sys.sleep(1)
           })
-          p_N <- ggplotly(pcaplot_overview(metboshow$keepValueMP, scale=FALSE, plot_title="After normalization"), source = 'pca_N')
+          p_N <- ggplotly(pcaplot_overview(metboshow$keepValueMP, scale=FALSE, plot_title="After processing", legend_title=""), source = 'pca_N')
           p_N %>%
             layout(dragmode = "select") %>%
             event_register("plotly_selected")
@@ -1179,7 +1179,7 @@ server = function(input, output, session) {
             }
             Sys.sleep(1)
           })
-          p_N <- ggplotly(pcaplot_overview(metboshow$keepValueMP, scale = FALSE, plot_title="After normalization"), source = 'pca_N')
+          p_N <- ggplotly(pcaplot_overview(metboshow$keepValueMP, scale = FALSE, plot_title="After processing", legend_title=""), source = 'pca_N')
           p_N %>%
             layout(dragmode = "select") %>%
             event_register("plotly_selected")
@@ -1194,9 +1194,9 @@ server = function(input, output, session) {
       })
 
       #output$plotNboxOri <- renderPlotly({ggplotly(boxplot_overview(metboshow$keepValueDP$X[,1:ncol(metboshow$keepValueDP$X)<=50]))})
-      output$plotNboxOriS <- renderPlot({rlaplot_overview(metboshow$keepValueDP, limitx = TRUE, dolog = TRUE, plot_title="Before normalization")})
-      output$plotNdenOri <- renderPlot({densityplot_overview(metboshow$keepValueDP$X, plot_title="Before normalization densityplot plot (variables)")})
-      output$plotNdenOriS <- renderPlot({densityplot_overview(metboshow$keepValueDP$X, plotvar=FALSE, plot_title="Before normalization densityplot plot (samples)")})
+      output$plotNboxOriS <- renderPlot({rlaplot_overview(metboshow$keepValueDP, limitx = TRUE, dolog = TRUE, plot_title="Before processing", legend_title="")})
+      output$plotNdenOri <- renderPlot({densityplot_overview(metboshow$keepValueDP$X, plot_title="Before processing densityplot plot (variables)")})
+      output$plotNdenOriS <- renderPlot({densityplot_overview(metboshow$keepValueDP$X, plotvar=FALSE, plot_title="Before processing densityplot plot (samples)")})
       # output$plotNbox <- renderPlotly({ggplotly(boxplot_overview(metboshow$keepValueMP$X[,1:ncol(metboshow$keepValueDP$X)<=50]))})
       output$plotNboxS <- renderPlot({
         isolate({
@@ -1208,9 +1208,9 @@ server = function(input, output, session) {
           }
           Sys.sleep(1)
           if(!is.null(metboshow$metbo_tran)|!is.null(metboshow$metbo_scal)){
-            rlaplot_overview(metboshow$keepValueMP, limitx = TRUE, dolog = FALSE, plot_title="After normalization")
+            rlaplot_overview(metboshow$keepValueMP, limitx = TRUE, dolog = FALSE, plot_title="After processing", legend_title="")
           }else{
-            rlaplot_overview(metboshow$keepValueMP, limitx = TRUE, dolog = TRUE, plot_title="After normalization")#dolog for normalization
+            rlaplot_overview(metboshow$keepValueMP, limitx = TRUE, dolog = TRUE, plot_title="After processing", legend_title="")#dolog for normalization
           }
         })
       })
@@ -1225,8 +1225,8 @@ server = function(input, output, session) {
           }
           Sys.sleep(1)
         })
-        densityplot_overview(metboshow$keepValueMP$X, plot_title="After normalization densityplot plot (variables)")})
-      output$plotNdenS <- renderPlot({densityplot_overview(metboshow$keepValueMP$X, plotvar=FALSE, plot_title="After normalization densityplot plot (samples)")})
+        densityplot_overview(metboshow$keepValueMP$X, plot_title="After processing densityplot plot (variables)")})
+      output$plotNdenS <- renderPlot({densityplot_overview(metboshow$keepValueMP$X, plotvar=FALSE, plot_title="After processing densityplot plot (samples)")})
     }else{
       shinyjs::hide("Nsummary")
       shinyjs::hide("NplotTab")
@@ -1523,10 +1523,14 @@ server = function(input, output, session) {
             }
             Sys.sleep(1)
             ggplotly(multiv_scoreplot(metboshow$keepValueM,cbind(PCx=metboshow$metbo_multi$score_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$score_val[,input$MULScorePC2]),
-                                      pcx=metboshow$metbo_multi$model_summary$R2X[metboshow$MULScoreCol1],pcy=metboshow$metbo_multi$model_summary$R2X[metboshow$MULScoreCol2], plot_title="Score plot"))
+                                      pcx=metboshow$metbo_multi$model_summary$R2X[metboshow$MULScoreCol1],pcy=metboshow$metbo_multi$model_summary$R2X[metboshow$MULScoreCol2], plot_title="Score plot", legend_title=""))
           })
           output$plotLoadMUL <- renderPlotly({#loading
-            ggplotly(multiv_loadingplot(cbind(PCX=metboshow$metbo_multi$loading_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$loading_val[,input$MULScorePC2]), plot_title="Loading plot"))
+            if(input$multiM == "pca"){#pca
+              ggplotly(multiv_loadingplot(cbind(PCX=metboshow$metbo_multi$loading_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$loading_val[,input$MULScorePC2]), plot_title="Loading plot"))
+            }else{#pls
+              ggplotly(multiv_viploadingplot(vip_data=metboshow$metbo_multi$vip_val, loading_data=cbind(PCX=metboshow$metbo_multi$loading_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$loading_val[,input$MULScorePC2]), plot_title="VIP and loading plot"))
+            }
           })
           if(input$multiM == "pca"){#vip pca
             output$plotvipMUL <- renderPlotly({ggplotly(ggplot()+ggtitle("VIP wasn't calculated for PCA, showing no plot."))})
@@ -1572,10 +1576,11 @@ server = function(input, output, session) {
               Sys.sleep(1)
               ggplotly(multiv_scoreplot(metboshow$keepValueM,score_data=metboshow$metbo_multi$score_val,
                                         pcx=metboshow$metbo_multi$model_summary$R2X[1],pcy=metboshow$metbo_multi$model_summary$R2X[2],
-                                        oscore_data=metboshow$metbo_multi$oscore_val, plot_title="Score plot"))
+                                        oscore_data=metboshow$metbo_multi$oscore_val, plot_title="Score plot", legend_title=""))
             })
             output$plotLoadMUL <- renderPlotly({#loading
-              ggplotly(multiv_loadingplot(metboshow$metbo_multi$loading_val,oloading_data=metboshow$metbo_multi$oloading_val,plot_title="Loading plot"))
+              #ggplotly(multiv_loadingplot(metboshow$metbo_multi$loading_val,oloading_data=metboshow$metbo_multi$oloading_val,plot_title="Loading plot"))
+              ggplotly(multiv_viploadingplot(vip_data=metboshow$metbo_multi$vip_val, loading_data=metboshow$metbo_multi$loading_val,oloading_data=metboshow$metbo_multi$oloading_val, plot_title="VIP and loading plot"))
             })
             output$plotvipMUL <- renderPlotly({#vip
               progress <- shiny::Progress$new()
@@ -1776,7 +1781,7 @@ server = function(input, output, session) {
       },error=function(e){
         shinybusy::remove_modal_spinner()
         message(e)
-        return()
+        return(NULL)
       })
     }else{return(NULL)}
     shinybusy::remove_modal_spinner()
@@ -3688,7 +3693,7 @@ server = function(input, output, session) {
     if(!is.null(metboshow$metbo_missing)){
       #generate_report(metboshow$metbo_missing,reportfile="impute_data_report") #server permission
       write.csv(data.frame(details=unlist(metboshow$metbo_missing$details)), file="impute_data_report.csv")
-      write.csv(cbind(metboshow$metbo_missing$inputdata[,1:metboshow$firstV-1],metboshow$metbo_missing$X),"imputed_output_table.csv")
+      write.csv(cbind(metboshow$metbo_missing$inputdata[,1:metboshow$firstV-1],metboshow$metbo_missing$X),"imputed_output_table.csv",row.names = F)
       files <- c("impute_data_report.csv","imputed_output_table.csv")
       return(files)
     }else(return(NULL))
@@ -3698,18 +3703,18 @@ server = function(input, output, session) {
     if(!is.null(metboshow$metbo_QCnorm)){
       #generate_report(metboshow$metbo_QCnorm,reportfile="normalize_byqc_report") #server permission
       write.csv(data.frame(details=unlist(metboshow$metbo_QCnorm$details)), file="normalize_byqc_report.csv")
-      write.csv(cbind(metboshow$metbo_QCnorm$inputdata[,1:metboshow$firstV-1],metboshow$metbo_QCnorm$X),"ISQC_normalization_output_table.csv")
+      write.csv(cbind(metboshow$metbo_QCnorm$inputdata[,1:metboshow$firstV-1],metboshow$metbo_QCnorm$X),"ISQC_normalization_output_table.csv",row.names = F)
       dt_plot = list();
-      dt_plot[['pca1']] = pcaplot_overview(metboshow$keepValueN, scale=FALSE, plot_title="Before normalization")
-      dt_plot[['pca2']] = pcaplot_overview(metboshow$metbo_QCnorm,scale=FALSE, plot_title="After normalization")
-      dt_plot[['rla1']] = rlaplot_overview(metboshow$keepValueN, limitx = TRUE, dolog = TRUE, plot_title="Before normalization")
-      dt_plot[['rla2']] = rlaplot_overview(metboshow$metbo_QCnorm, limitx = TRUE, dolog = TRUE, plot_title="After normalization")
-      # dt_plot[['box1']] = boxplot_overview(metboshow$keepValueN, plot_title="Before normalization")
-      # dt_plot[['box2']] = boxplot_overview(metboshow$metbo_QCnorm, plot_title="After normalization")
-      dt_plot[['dens1']] = densityplot_overview(metboshow$keepValueN$X, plot_title="Before normalization (variables)")
-      dt_plot[['dens2']] = densityplot_overview(metboshow$metbo_QCnorm$X, plot_title="After normalization (variables)")
-      dt_plot[['dens_samp1']] = densityplot_overview(metboshow$keepValueN$X, plotvar=FALSE, plot_title="Before normalization (samples)")
-      dt_plot[['dens_samp2']] = densityplot_overview(metboshow$metbo_QCnorm$X, plotvar=FALSE, plot_title="After normalization (samples)")
+      dt_plot[['pca1']] = pcaplot_overview(metboshow$keepValueN, scale=FALSE, plot_title="Before processing", legend_title="")
+      dt_plot[['pca2']] = pcaplot_overview(metboshow$metbo_QCnorm,scale=FALSE, plot_title="After processing", legend_title="")
+      dt_plot[['rla1']] = rlaplot_overview(metboshow$keepValueN, limitx = TRUE, dolog = TRUE, plot_title="Before processing", legend_title="")
+      dt_plot[['rla2']] = rlaplot_overview(metboshow$metbo_QCnorm, limitx = TRUE, dolog = TRUE, plot_title="After processing", legend_title="")
+      # dt_plot[['box1']] = boxplot_overview(metboshow$keepValueN, plot_title="Before processing")
+      # dt_plot[['box2']] = boxplot_overview(metboshow$metbo_QCnorm, plot_title="After processing")
+      dt_plot[['dens1']] = densityplot_overview(metboshow$keepValueN$X, plot_title="Before processing (variables)")
+      dt_plot[['dens2']] = densityplot_overview(metboshow$metbo_QCnorm$X, plot_title="After processing (variables)")
+      dt_plot[['dens_samp1']] = densityplot_overview(metboshow$keepValueN$X, plotvar=FALSE, plot_title="Before processing (samples)")
+      dt_plot[['dens_samp2']] = densityplot_overview(metboshow$metbo_QCnorm$X, plotvar=FALSE, plot_title="After processing (samples)")
       ggsave("ISQC_normalization_output_figure.pdf",
              marrangeGrob(grobs = dt_plot, nrow=1, ncol=2, as.table=TRUE), dpi = 600, units = "in", width = 18, height = 10, device = "pdf")
       files <- c("normalize_byqc_report.csv","ISQC_normalization_output_table.csv","ISQC_normalization_output_figure.pdf")
@@ -3730,28 +3735,28 @@ server = function(input, output, session) {
         #generate_report(metboshow$metbo_tran,reportfile="transform_data_report") #server permission
         write.csv(data.frame(details=unlist(metboshow$metbo_tran$details)), file="transform_data_report.csv")
       }
-      write.csv(cbind(metboshow$keepValueMP$inputdata[,1:metboshow$firstV-1],metboshow$keepValueMP$X),"Data_normalization_output_table.csv")
-      dt_plot[['pca1']] = pcaplot_overview(metboshow$keepValueDP,scale=FALSE, plot_title="Before normalization")
+      write.csv(cbind(metboshow$keepValueMP$inputdata[,1:metboshow$firstV-1],metboshow$keepValueMP$X),"Data_normalization_output_table.csv",row.names = F)
+      dt_plot[['pca1']] = pcaplot_overview(metboshow$keepValueDP,scale=FALSE, plot_title="Before processing", legend_title="")
       if(!is.null(metboshow$metbo_scal)){
         #generate_report(metboshow$metbo_scal,reportfile="scale_data_report") #server permission
         write.csv(data.frame(details=unlist(metboshow$metbo_scal$details)), file="scale_data_report.csv")
-        dt_plot[['pca2']] = pcaplot_overview(metboshow$keepValueMP,scale=FALSE, plot_title="After normalization")
+        dt_plot[['pca2']] = pcaplot_overview(metboshow$keepValueMP,scale=FALSE, plot_title="After processing", legend_title="")
       }
       if(is.null(metboshow$metbo_scal)){
-        dt_plot[['pca2']] = pcaplot_overview(metboshow$keepValueMP,scale=FALSE, plot_title="After normalization")
+        dt_plot[['pca2']] = pcaplot_overview(metboshow$keepValueMP,scale=FALSE, plot_title="After processing", legend_title="")
       }
-      dt_plot[['rla1']] = rlaplot_overview(metboshow$keepValueDP, limitx = TRUE, dolog = TRUE, plot_title="Before normalization")
+      dt_plot[['rla1']] = rlaplot_overview(metboshow$keepValueDP, limitx = TRUE, dolog = TRUE, plot_title="Before processing", legend_title="")
       if(!is.null(metboshow$metbo_tran)|!is.null(metboshow$metbo_scal)){
-        dt_plot[['rla2']] = rlaplot_overview(metboshow$keepValueMP, limitx = TRUE, dolog = FALSE, plot_title="After normalization")
+        dt_plot[['rla2']] = rlaplot_overview(metboshow$keepValueMP, limitx = TRUE, dolog = FALSE, plot_title="After processing", legend_title="")
       }else{
-        dt_plot[['rla2']] = rlaplot_overview(metboshow$keepValueMP, limitx = TRUE, dolog = TRUE, plot_title="After normalization")#dolog for normalization
+        dt_plot[['rla2']] = rlaplot_overview(metboshow$keepValueMP, limitx = TRUE, dolog = TRUE, plot_title="After processing", legend_title="")#dolog for normalization
       }
-      # dt_plot[['box1']] = boxplot_overview(metboshow$keepValueDP, plot_title="Before normalization")
-      # dt_plot[['box2']] = boxplot_overview(metboshow$keepValueMP, plot_title="After normalization")
-      dt_plot[['dens1']] = densityplot_overview(metboshow$keepValueDP$X, plot_title="Before normalization (variables)")
-      dt_plot[['dens2']] = densityplot_overview(metboshow$keepValueMP$X, plot_title="After normalization (variables)")
-      dt_plot[['dens_samp1']] = densityplot_overview(metboshow$keepValueDP$X, plotvar=FALSE, plot_title="Before normalization (samples)")
-      dt_plot[['dens_samp2']] = densityplot_overview(metboshow$keepValueMP$X, plotvar=FALSE, plot_title="After normalization (samples)")
+      # dt_plot[['box1']] = boxplot_overview(metboshow$keepValueDP, plot_title="Before processing")
+      # dt_plot[['box2']] = boxplot_overview(metboshow$keepValueMP, plot_title="After processing")
+      dt_plot[['dens1']] = densityplot_overview(metboshow$keepValueDP$X, plot_title="Before processing (variables)")
+      dt_plot[['dens2']] = densityplot_overview(metboshow$keepValueMP$X, plot_title="After processing (variables)")
+      dt_plot[['dens_samp1']] = densityplot_overview(metboshow$keepValueDP$X, plotvar=FALSE, plot_title="Before processing (samples)")
+      dt_plot[['dens_samp2']] = densityplot_overview(metboshow$keepValueMP$X, plotvar=FALSE, plot_title="After processing (samples)")
       ggsave("Data_normalization_output_figure.pdf",
              marrangeGrob(grobs = dt_plot, nrow=1, ncol=2, as.table=TRUE), dpi = 600, units = "in", width = 18, height = 10, device = "pdf")
       files <- c("Data_normalization_output_table.csv","Data_normalization_output_figure.pdf")
@@ -3878,8 +3883,13 @@ server = function(input, output, session) {
       dt_plot = list();
       if((input$multiM == "pca" || input$multiM == "pls") && ncol(metboshow$metbo_multi$score_val) > 1 && input$MULScorePC2 != "NA"){#pca or pls
         dt_plot[['scpl']] = multiv_scoreplot(metboshow$keepValueM,cbind(PCx=metboshow$metbo_multi$score_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$score_val[,input$MULScorePC2]),
-                                             pcx=metboshow$metbo_multi$model_summary$R2X[metboshow$MULScoreCol1],pcy=metboshow$metbo_multi$model_summary$R2X[metboshow$MULScoreCol2], plot_title="Score plot")
-        dt_plot[['loadingpl']] = multiv_loadingplot(cbind(PCX=metboshow$metbo_multi$loading_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$loading_val[,input$MULScorePC2]), plot_title="Loading plot")
+                                             pcx=metboshow$metbo_multi$model_summary$R2X[metboshow$MULScoreCol1],pcy=metboshow$metbo_multi$model_summary$R2X[metboshow$MULScoreCol2], plot_title="Score plot", legend_title="")
+        if(input$multiM == "pca"){#pca
+          dt_plot[['loadingpl']] = multiv_loadingplot(cbind(PCX=metboshow$metbo_multi$loading_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$loading_val[,input$MULScorePC2]), plot_title="Loading plot")
+        }else{#pls
+          dt_plot[['loadingpl']] = multiv_loadingplot(cbind(PCX=metboshow$metbo_multi$loading_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$loading_val[,input$MULScorePC2]), plot_title="Loading plot")
+          dt_plot[['viploadingpl']] = multiv_viploadingplot(vip_data=metboshow$metbo_multi$vip_val, loading_data=cbind(PCX=metboshow$metbo_multi$loading_val[,input$MULScorePC1],PCY=metboshow$metbo_multi$loading_val[,input$MULScorePC2]), plot_title="VIP and loading plot")
+        }
         if(input$multiM == "pls"){#vip pls
           filtvp = sort(metboshow$metbo_multi$vip_val, decreasing = TRUE)
           dt_plot[['vippl']] = multiv_vipplot(head(filtvp,n=100))
@@ -3890,8 +3900,9 @@ server = function(input, output, session) {
         if(all(!is.na(metboshow$metbo_multi$score_val[,1])) && all(!is.na(metboshow$metbo_multi$oscore_val[,1]))){
           dt_plot[['scpl']] = multiv_scoreplot(metboshow$keepValueM,score_data=metboshow$metbo_multi$score_val,
                                                pcx=metboshow$metbo_multi$model_summary$R2X[1],pcy=metboshow$metbo_multi$model_summary$R2X[2],
-                                               oscore_data=metboshow$metbo_multi$oscore_val, plot_title="Score plot")
-          dt_plot[['loadingpl']] = multiv_loadingplot(metboshow$metbo_multi$loading_val,oloading_data=metboshow$metbo_multi$oloading_val,plot_title="Loading plot")
+                                               oscore_data=metboshow$metbo_multi$oscore_val, plot_title="Score plot", legend_title="")
+          dt_plot[['loadingpl']] = multiv_loadingplot(loading_data=metboshow$metbo_multi$loading_val,oloading_data=metboshow$metbo_multi$oloading_val, plot_title="Loading plot")
+          dt_plot[['viploadingpl']] = multiv_viploadingplot(vip_data=metboshow$metbo_multi$vip_val, loading_data=metboshow$metbo_multi$loading_val,oloading_data=metboshow$metbo_multi$oloading_val, plot_title="VIP and loading plot")
           filtvp = sort(metboshow$metbo_multi$vip_val, decreasing = TRUE)
           dt_plot[['vippl']] = multiv_vipplot(head(filtvp,n=100))
           filtld = metboshow$metbo_multi$loading_val[order(abs(metboshow$metbo_multi$loading_val[,1]),decreasing = TRUE),,drop=FALSE]
