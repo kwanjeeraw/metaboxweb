@@ -66,7 +66,7 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                                     fluidRow(width=12,
                                              sidebarLayout(
                                                column(width=3,
-                                                      sidebarPanel(width=12,style = "overflow-y:scroll; max-height: 900px; position:relative;",
+                                                      sidebarPanel(width=12,style = "overflow-y:scroll; max-height: 900px; position:relative; height: 720px;",
                                                                    h4("Start upload your data"),
                                                                    h6("*'Sample_ID' and 'ClassCol can't be used as column names."),
                                                                    br(),
@@ -92,7 +92,7 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                                                                   column(12,id = "UPdata",
                                                                          tabsetPanel(id = "UPdataT",
                                                                                      tabPanel("Data table",value = "UPdataTab",br(),
-                                                                                              div(DT::dataTableOutput('INtable'), style = "overflow-y:scroll; overflow-x:scroll;max-height: 600px; position:relative; max-height: 600px;"),br()
+                                                                                              div(DT::dataTableOutput('INtable'), style = "overflow-y:scroll; overflow-x:scroll;max-height: 600px; position:relative; "),br()
                                                                                      ))
                                                                   )
                                                                 ))
@@ -131,8 +131,10 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                                                                                                                      "BPCA" = "bpca",
                                                                                                                      "PPCA" = "ppca",
                                                                                                                      "SVD" = "svd",
-                                                                                                                     "RF" = "rf"
+                                                                                                                     "RF" = "rf",
+                                                                                                                     "LOD (Provide a number for imputation. **The default is set to the lowest value.)" = "lod"
                                                                                                       ),selected = 'median'),
+                                                                                         numericInput("misLOD", label=NULL, min = 0, value = 0, width = 300),
                                                                                          br(),
                                                                                          actionButton("run1", "Run", class = "btn btn-primary"),
                                                                                          actionButton("back1", "Back"),
@@ -151,7 +153,59 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                                                                                                ),hr(style="border-top: 1px dashed #B5C7DA;")),
                                                                                         column(12, id = "MIoutput",
                                                                                                tabsetPanel(id = "MIoutputT",
+                                                                                                           tabPanel("Overview", value = "MIoverview",br(),
+                                                                                                                    column(12,
+                                                                                                                           h5("PCA score plot of the first two PCs provides the overview of the data."),hr(style="border-top: 1px dashed #D3D3D3;"),
+                                                                                                                           column(6,
+                                                                                                                                  plotlyOutput(outputId = "plotMIoverOri",height = "480px")
+                                                                                                                           ),
+                                                                                                                           column(6,
+                                                                                                                                  div(verbatimTextOutput("txtbox.MIoverOri"),style = " overflow-y:scroll; max-height: 350px;")
+                                                                                                                           )
+                                                                                                                    ),
+                                                                                                                    column(12,br(),br(),
+                                                                                                                           column(6,
+                                                                                                                                  plotlyOutput(outputId = "plotMIover",height = "480px"),br()
+                                                                                                                           ),
+                                                                                                                           column(6,
+                                                                                                                                  h5("*Drag on the plot to select sample(s), double-click to unselect."),
+                                                                                                                                  h5("*To exclude sample(s)/outlier(s) in further analysis, click REMOVE SAMPLE."),
+                                                                                                                                  div(verbatimTextOutput("txtbox.MIover"),style = "overflow-y:scroll; max-height: 350px;"),
+                                                                                                                                  actionButton("rev_mi", "Remove sample",style="float:right;"),br()
+                                                                                                                           )
+                                                                                                                    ),
+                                                                                                           ),
+                                                                                                           tabPanel("RLA plot", value = "MIrlaplot",br(),
+                                                                                                                    column(12,
+                                                                                                                           h5("RLA plot provides the overview of the replicates within each group."),h5("*Display only the first 100 samples."),
+                                                                                                                           hr(style="border-top: 1px dashed #D3D3D3;"),
+                                                                                                                           plotOutput(outputId = "plotMIboxOriS",height = 800)
+                                                                                                                    ),
+                                                                                                                    column(12,
+                                                                                                                           plotOutput(outputId = "plotMIboxS",height = 800)
+                                                                                                                    )
+                                                                                                           ),
+                                                                                                           tabPanel("Density", value = "MIdensity",br(),
+                                                                                                                    column(12,
+                                                                                                                           h5("Density plot provides the distribution of variables and samples."),hr(style="border-top: 1px dashed #D3D3D3;")),
+                                                                                                                    column(12,
+                                                                                                                           column(6,
+                                                                                                                                  plotOutput(outputId = "plotMIdenOri")
+                                                                                                                           ),
+                                                                                                                           column(6,
+                                                                                                                                  plotOutput(outputId = "plotMIden")
+                                                                                                                           )),
+                                                                                                                    column(12,br(),
+                                                                                                                           column(6,
+                                                                                                                                  plotOutput(outputId = "plotMIdenOriS")
+                                                                                                                           ),
+                                                                                                                           column(6,
+                                                                                                                                  plotOutput(outputId = "plotMIdenS")
+                                                                                                                           ))
+                                                                                                           ),
                                                                                                            tabPanel("Output table", value = "MIoutputTab",br(),
+                                                                                                                    actionButton("deleteC_mi", "Delete column"),br(),
+                                                                                                                    h5("*To exclude variable(s) in further analysis, select column(s) and click DELETE COLUMN."),hr(style="border-top: 1px dashed #D3D3D3;"),
                                                                                                                     div(DT::dataTableOutput('INtable3'), style = "overflow-y:scroll; overflow-x:scroll;max-height: 600px; position:relative; max-height: 600px;"),br()
                                                                                                            )
                                                                                                )
@@ -259,7 +313,7 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                                                                                                            tabPanel("Output table", value = "QCoutputTab",br(),
                                                                                                                     actionButton("deleteC_qc", "Delete column"),br(),
                                                                                                                     h5("*To exclude variable(s) in further analysis, select column(s) and click DELETE COLUMN."),hr(style="border-top: 1px dashed #D3D3D3;"),
-                                                                                                                    div(DT::dataTableOutput('INtable4'), style = " overflow-y:scroll; overflow-x:scroll;max-height: 600px; position:relative; max-height: 600px;"),br()
+                                                                                                                    div(DT::dataTableOutput('INtable4'), style = " overflow-y:scroll; overflow-x:scroll;max-height: 600px; position:relative;"),br()
                                                                                                            )
                                                                                                )
                                                                                         ))
@@ -803,7 +857,7 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                                                                                         actionButton("UploadMBPL", "Upload", class = "btn btn-primary"),
                                                                                         actionButton("BackMBPL", "Back"),
                                                                                         actionButton("NextMBPL", "Next"),
-                                                                                        br(),br(),
+                                                                                        br(),
                                                                            )),
                                                                     column(9,
                                                                            mainPanel(width=12,br(),
@@ -862,12 +916,19 @@ ui <- fluidPage(theme = bs_theme(version = 3, bootswatch = "lumen", base_font = 
                                                                                                                     "Minimum" = "min",
                                                                                                                     "Mean" = "mean",
                                                                                                                     "Median" = "median",
-                                                                                                                    "KNN" = "knn",
                                                                                                                     "BPCA" = "bpca",
                                                                                                                     "PPCA" = "ppca",
                                                                                                                     "SVD" = "svd",
-                                                                                                                    "RF" = "rf"
+                                                                                                                    "KNN" = "knn",
+                                                                                                                    "RF" = "rf",
+                                                                                                                    "LOD (Provide a number for imputation. **The default is set to the lowest value.)" = "lod"
                                                                                                      ),selected = 'median'),
+                                                                                        numericInput("misLOD_m1", h5("Data set 1"), min = 0, value = 0, width = 300),
+                                                                                        numericInput("misLOD_m2", h5("Data set 2"), min = 0, value = 0, width = 300),
+                                                                                        numericInput("misLOD_m3", h5("Data set 3"), min = 0, value = 0, width = 300),
+                                                                                        numericInput("misLOD_m4", h5("Data set 4"), min = 0, value = 0, width = 300),
+                                                                                        numericInput("misLOD_m5", h5("Data set 5"), min = 0, value = 0, width = 300),
+
                                                                                         br(),
                                                                                         actionButton("run_m", "Run", class = "btn btn-primary"),
                                                                                         actionButton("back_m", "Back"),
