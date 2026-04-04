@@ -1,6 +1,10 @@
 # Metabox 2.0
 Metabox 2.0: A toolbox for thorough metabolomic data analysis, integration and interpretation. The metaboxweb is for deploying as a Docker container or ShinyApp. We recommend the [R command line version](https://github.com/kwanjeeraw/metabox2) for custom pipelines and other exclusive projects.
 
+Documentation
+=========
+See [tutorial](https://kwanjeeraw.github.io/metaboxweb/)
+
 References
 =========
 - Wanichthanarak K, In-On A, Fan S, Fiehn O, Wangwiwatsin A, Khoomrung S (2024) Data processing solutions to render metabolomics more quantitative: case studies in food and clinical metabolomics using Metabox 2.0. GigaScience 13(2024): [giae005](https://10.1093/gigascience/giae005)
