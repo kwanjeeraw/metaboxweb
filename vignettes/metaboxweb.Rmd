@@ -17,32 +17,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-## CONTENTS
-
-This tutorial demonstrates how to use the Metabox 2.0 GUI, guiding you through five modules. Figure 1 provides an overview of the pipeline.
-
-```{r, echo=FALSE, results='asis'}
-cat('
-<p align="center">
-  <img src="fig1.png" style="max-width:100%; height:auto;"><br>
-  <em>Figure 1. Overview of Metabox 2.0 GUI containing three key pipelines and five modules</em>
-</p>
-')
-```
-
-Go to Section:
-
-  * [DATA PROCESSING](#data-processing)
-  * [STATISTICAL ANALYSIS](#statistical-analysis)
-  * [BIOMARKER ANALYSIS](#biomarker-analysis)
-  * [INTEGRATIVE ANALYSIS](#integrative-analysis)
-  * [DATA INTERPRETATION](#data-interpretation)
-
 ## METABOX 2.0 GUI
 
-Here are alternative ways to use Metabox 2.0 GUI:
+Metabox 2.0 GUI runs in a web browser and provides interactive data analysis and visualization through a user-friendly interface. It is designed for users with little or no experience in R programming. Below are alternative ways to use the Metabox 2.0 GUI:
 
 #### ***Use Metabox 2.0 as an R package***
+  * Install Metabox 2.0 as a standard R package, see [details](https://github.com/kwanjeeraw/metabox2?tab=readme-ov-file#install-as-a-standard-r-package)
   * Open R or RStudio, then load the Metabox2 package and launch the GUI using the following R commands
  
  ```
@@ -67,6 +47,27 @@ Here are alternative ways to use Metabox 2.0 GUI:
 
 #### ***Use Metabox 2.0 via the online server***
   * Access the [online server](https://github.com/kwanjeeraw/metabox2?tab=readme-ov-file#use-an-online-version-from-our-servers)
+
+## CONTENTS
+
+This tutorial shows how to use the Metabox 2.0 GUI across five modules. Figure 1 provides an overview of the pipeline.
+
+```{r, echo=FALSE, results='asis'}
+cat('
+<p align="center">
+  <img src="fig1.png" style="max-width:100%; height:auto;"><br>
+  <em>Figure 1. Overview of Metabox 2.0 GUI containing three key pipelines and five modules</em>
+</p>
+')
+```
+
+Go to module:
+
+  * [DATA PROCESSING](#module-1-data-processing)
+  * [STATISTICAL ANALYSIS](#module-2-statistical-analysis)
+  * [BIOMARKER ANALYSIS](#module-3-biomarker-analysis)
+  * [INTEGRATIVE ANALYSIS](#module-4-integrative-analysis)
+  * [DATA INTERPRETATION](#module-5-data-interpretation)
 
 ## PREPARE INPUT DATA
 
@@ -98,7 +99,7 @@ cat('
 ')
 ```
 
-## DATA PROCESSING
+## Module 1-DATA PROCESSING
 
 **Step:** Open the GUI → Click the ***DATA PROCESSING (1)*** button → Upload the data → Start the data processing steps
 
@@ -150,7 +151,7 @@ This step replaces missing values using information from the existing data.
 Specify the required arguments to impute missing data (**Figure 4**):
 
   - *Remove all variables with missing values*: Select whether variables with any missing values are removed or retained. → Not remove all
-  - *Remove variables with missing values > (%)*: Define percentage threshold for missing values, Variables exceeding the cutoff are removed. → 30%
+  - *Remove variables with missing values > (%)*: Enter percentage threshold for missing values, Variables exceeding the cutoff are removed. → 30%
   - *Choose imputation method*: Select missing value imputation method. → RF
 
 ```{r, echo=FALSE, results='asis'}
@@ -214,7 +215,7 @@ cat('
 
 **Tip:** Users can proceed to  ***STATISTICAL ANALYSIS*** or  ***BIOMARKER ANALYSIS*** from this page, or export the processed data for other downstream analyses.
 
-## STATISTICAL ANALYSIS
+## Module 2-STATISTICAL ANALYSIS
 
 After completing data processing, click ***STATISTICAL ANALYSIS*** button to proceed.
 
@@ -286,18 +287,18 @@ cat('
 
 **Output:** Several plots are provided, including score plot, loading plot, and VIP plot, along with a table of results.
 
-## BIOMARKER ANALYSIS
+## Module 3-BIOMARKER ANALYSIS
 
 **Step:** Open the GUI → Click the ***BIOMARKER ANALYSIS (3)*** button → Upload the data → Start the analysis
 
 For this tutorial, download the ***LC_LN dataset*** (LC_LN_Samples.csv) from the provided Example Data (**Figure 2**) and save it to your working directory. This tutorial assumes the data is already processed. The dataset contains 116 samples across two groups and 9 metabolites.
 
-Specify the required arguments for biomarker analysis (**Figure 8**):
+Specify the required arguments for biomarker analysis (**Figure 9**):
 
   - *Choose ML analysis method*: Select ML method. → PLS
-  - *Number of repetitions*: Define number of double cross-validation repetitions. → 3
-  - *Ratio of variables included in inner loop iterations (max = 1)*: Define proportion of variables in inner loops. → 0.75
-  - *Ratio of training set (max = 1)*: Define proportion of data for training. → 0.7
+  - *Number of repetitions*: Enter number of double cross-validation repetitions. → 3
+  - *Ratio of variables included in inner loop iterations (max = 1)*: Enter proportion of variables in inner loops. → 0.75
+  - *Ratio of training set (max = 1)*: Enter proportion of data for training. → 0.7
   - *Choose analysis task*: Select whether to perform classification or regression. → Classification
   - *Choose performance evaluation method*: Select evaluation metric. → AUROC
 
@@ -312,121 +313,108 @@ cat('
 
 **Output:** Several plots are provided, including variable importance plot, performance plot, along with a table of results.
 
-## INTEGRATIVE ANALYSIS
+## Module 4-INTEGRATIVE ANALYSIS
 
-Metabox 2.0 uses the [packMBPLSDA](https://cran.r-project.org/web/packages/packMBPLSDA/index.html) for integrative analysis.
+**Step:** Open the GUI → Click the ***INTEGRATIVE ANALYSIS (4)*** button → Upload the data → Start the analysis
 
-For this tutorial, download the [LC dataset](https://github.com/kwanjeeraw/metabox2/blob/main/inst/shiny/www/LC_Fat_Tissue.csv) (LC_Fat_Tissue.csv) and the [GC dataset](https://github.com/kwanjeeraw/metabox2/blob/main/inst/shiny/www/GC_Fat_Tissue.csv) (GC_Fat_Tissue.csv), and save them to your working directory. Integrative analysis requires at least two datasets from the same subjects measured on different platforms. Then, run the following commands for integrative analysis. Each dataset contains 94 samples, including 24 LC metabolites and 137 GC metabolites.
+For this tutorial, download the ***LC_Fat_Tissue dataset*** (LC_Fat_Tissue.csv) and the ***GC_Fat_Tissue dataset*** (GC_Fat_Tissue.csv) from the provided Example Data (**Figure 2**), and save them to your working directory. Integrative analysis requires at least two datasets from the same subjects measured on different platforms. Each dataset contains 94 samples, including 24 LC metabolites and 137 GC metabolites.
 
-```
-#Load two input datasets
-input_LC = read_input_data(filename='LC_Fat_Tissue.csv') #load input file1
-input_GC = read_input_data(filename='GC_Fat_Tissue.csv') #load input file2
+#### ***1. Upload the data***
 
-#Setup Metabox objects and preview data
-obj_LC = set_input_obj(inputdata=input_LC, idCol=1, classCol=3, xCol=4)
-obj_GC = set_input_obj(inputdata=input_GC, idCol=1, classCol=3, xCol=4)
-head(obj_LC$X) #preview the data1
-```
+For each dataset specify the required arguments for uploading the datasets (**Figure 10**):
 
-Specifying the required arguments for the ***mbplsda_analyze*** function:
+  - *Number of data sets*: Select the number of datasets (maximum of five). → 2
+  - *Upload a csv file of data set 1*: Browse to the input data1 file. → LC_Fat_Tissue.csv
+  - *Data set name*: Enter a name for the dataset. The default is the file name. → LC_Fat_Tissue
+  - *Sample ID column*: Select the sample ID column. → SampleID
+  - *Class/response column (Y)*: Select the category (factor) column. → Tissue
+  - *1st variable/feature column (X)*: Select the first variable/feature column. → Cer (d34:1)
 
-  - *class_data*: one-column data frame of class/category data.
-  - *input_data*: list of dataframes containing two or more datasets of explanatory (independent) variables. must have the same samples and no duplicated variables.
-  - *scale*: logical; whether to standardize variables.
-  - *option*: block weighting method: none (default) or uniform.
-  - *nf*: number of principal components (default = 10).
-  - *optdim*: optimal number of components (default = 2).
-  - *nrepet*: number of cross-validation repetitions.
-  - *npermut*: number of permutations.
-  - *nboot*: number of bootstrap replications.
-  - *threshold*: numeric value between 0 and 1 indicating the prediction threshold (default = 0.5).
-  - *testmodel*: logical value indicating whether to perform model component testing and permutation (default = FALSE).
-  - *cpus*: number of CPUs for parallel computing.
-
-```
-#Integrative analysis by MBPLSDA
-output_mbpls = mbplsda_analyze(class_data=data.frame(obj_LC$Y), input_data=list(lc = obj_LC$X,gc = obj_GC$X), nrepet=10, npermut=5, nboot=5, testmodel=TRUE, cpus=1)
-
-#Block importance plot
-mbplsda_plotboot_bipc(output_mbpls$result$res_boot)
-
-#Variable importance plot
-mbplsda_plotboot_vipc(output_mbpls$result$res_boot)
-
-#Prediction error rate plot
-mbplsda_plottestdim(output_mbpls$result$res_optimal)
-
-#Permutation testing plot
-mbplsda_plotpermut(output_mbpls$result$res_permut)
-
-#Scree plot
-mbplsda_screeplot(output_mbpls$result$base_model$eig)
-```
 ```{r, echo=FALSE, results='asis'}
 cat('
 <p align="center">
-  <img src="fig8.png" style="max-width:100%; height:auto;"><br>
-  <em>Figure 8. Block importance plot</em>
+  <img src="fig10.png" style="max-width:100%; height:auto;"><br>
+  <em>Figure 10. Setup data for integrative analysis</em>
 </p>
 ')
 ```
 
-## DATA INTERPRETATION
+#### ***2. Perform the analysis***
+
+Specify the required arguments for integrative analysis (**Figure 11**):
+
+  - *Maximum number of scanned principle components*: Enter number of principal components. → 5
+  - *Optimal number of principle components*: Enter optimal number of components. → 2
+  - *Number of bootstrap replications*: Enter number of bootstrap replications. → 5
+  - *Number of cross-validation repetitions*: Enter number of cross-validation repetitions. → 3
+  - *Perform model components testing and permutation*: Select whether to perform model component testing and permutation. → Yes
+  - *Number of permutations*: Enter number of permutations. → 5
+  - *Prediction threshold (max = 1)*: Enter numeric value between 0 and 1 indicating the prediction threshold. → 0.5
+
+```{r, echo=FALSE, results='asis'}
+cat('
+<p align="center">
+  <img src="fig11.png" style="max-width:100%; height:auto;"><br>
+  <em>Figure 11. Integrative analysis</em>
+</p>
+')
+```
+
+**Output:** Several plots are provided, including block importance plot, variable importance plot, loading plot, validation plot.
+
+## Module 5-DATA INTERPRETATION
+
+**Step:** Open the GUI → Click the ***DATA INTERPRETATION (5)*** button → Upload the data → Start the analysis
 
 Metabox 2.0 provides data interpretation in a pathway context for genes, proteins, and metabolites, as well as chemical class context for metabolites.
 
-For this tutorial, download the [demo dataset](https://github.com/kwanjeeraw/metabox2/blob/main/inst/shiny/www/metabolite_list.csv) (metabolite_list.csv) and save it to your working directory. It is assumed that users already have a list of metabolites and associated statistical information, as shown in the demo dataset.
+For this tutorial, download the ***metabolite_list dataset*** (metabolite_list.csv) from the provided Example Data (**Figure 2**), and save them to your working directory. It is assumed that users already have a list of metabolites and associated statistical information, as shown in the demo dataset.
 
-#### Try overrepresentation analysis (ORA)
+### ***Overrepresentation analysis (ORA)***
 
-Specifying the required arguments for the ***overrep_analyze*** function:
+For this tutorial, pathway overrepresentation analysis will be performed on a given list of metabolites using the KEGG database as the pathway resource.
 
-  - *txtinput*: character vector of feature IDs (e.g., c("C12078", "C02273")). For pathway analysis uses KEGG IDs (e.g., C12078) for compounds, UniProt entries (e.g., P0C9J6) for proteins, and NCBI Gene IDs (e.g., 10327) for genes. For chemical class analysis uses HMDB IDs (e.g., HMDB0000001) for compounds.
-  - *nodetype*: node type: compound (default), protein, or gene.
-  - *settype*: set type: pathway (default) or chemicalclass.
-  - *organism*: KEGG organism code; not used if `settype = "chemicalclass"` (default = hsa; or tdc).
-  - *size*: minimum number of members per term (default = 3).
-  - *universe*: background feature IDs (default = all unique IDs in the set collection).
+Navigate to ***Overrepresentation*** tab and specify the required arguments for overrepresentation analysis (**Figure 12**):
 
-```
-#Load input file
-input_dat = read_input_data(filename='metabolite_list.csv')
+  - *Enter list of variables or Upload a csv file*: Enter list of feature IDs. For pathway analysis uses KEGG IDs (e.g., C12078) for compounds, UniProt entries (e.g., P0C9J6) for proteins, and NCBI Gene IDs (e.g., 10327) for genes. For chemical class analysis uses HMDB IDs (e.g., HMDB0000001) for compounds. Or upload a csv file containing list of features. → metabolite_list.csv
+  - *Choose variable type*: Select node type. → Compound
+  - *Choose annotation type*: Select set type. → KEGG pathway
+  - *Minimum number of members*: Enter minimum number of members per term. → 3
 
-#Do pathway ORA
-output_ora = overrep_analyze(txtinput=input_dat$kegg, nodetype="compound", size=5)
-head(output_ora$enrichment) #preview result
+**Tip:** In case of chemical class overrepresentation analysis, it is performed using the HMDB database as the metabolite resource.
 
-#Do chemical class ORA
-output_chem = overrep_analyze(txtinput=input_dat$hmdb, settype="chemicalclass")
-head(output_chem$enrichment) #preview result
-
-#Export result
-write.csv(output_chem$enrichment,file="ora.csv",row.names=FALSE)
+```{r, echo=FALSE, results='asis'}
+cat('
+<p align="center">
+  <img src="fig12.png" style="max-width:100%; height:auto;"><br>
+  <em>Figure 12. Overrepresentation analysis</em>
+</p>
+')
 ```
 
-#### Try pathway enrichment analysis
+**Output:** The results table contains statistical values for each pathway, along with the list of pathway members.
 
-Specifying the required arguments for the ***enrichment_analyze*** function:
+### ***Pathway enrichment analysis***
 
-  - *input_data*: dataframe containing feature IDs, statistics (e.g., p-, t-, or F-values), and optional directions (e.g., fold changes).
-  - *pcol*: column index for statistical values (default = 2).
-  - *fcol*: column index for direction values (e.g., fold changes; default = NULL, directionality ignored).
-  - *method*: enrichment method: reporter (default), fisher, median, mean, stouffer.
-  - *nodetype*: node type: compound (default), protein, or gene.
-  - *settype*: set type: pathway (default) or chemicalclass.
-  - *organism*: KEGG organism code; not used if `settype = "chemicalclass"` (default = hsa; or tdc).
-  - *size*: minimum number of members per term (default = 3).
+Pathway enrichment analysis will be performed on a given list of metabolites, incorporating statistical values (e.g., p-, t-, or F-values) and optional directionality (e.g., fold changes), using the KEGG database as the pathway resource.
+
+Navigate to ***Enrichment*** tab and specify the required arguments for enrichment analysis (**Figure 13**):
+
+  - *Upload a csv file*: Upload a csv file containing feature IDs, statistics (e.g., p-, t-, or F-values), and optional directions (e.g., fold changes). → metabolite_list.csv
+  - *P-value column*: Select the column containing statistical values. → pvalues
+  - *Fold-change column (optional)*: Select the column containing direction values (if none, directionality is ignored). → logfc
+  - *Choose analysis method*: Select enrichment method. → Reporter
+  - *Choose variable type*: Select node type. → Compound
+  - *Choose annotation type*: Select set type. → KEGG pathway
+  - *Minimum number of members*: Enter minimum number of members per term. → 3
   
-```
-#Load input file
-input_dat = read_input_data(filename='metabolite_list.csv')
-
-#Enrichment analysis containing directional values (Fold-change)
-output_enr = enrichment_analyze(input_data=input_dat, pcol=5, fccol=6, method="reporter", nodetype="compound", settype="pathway")
-head(output_enr$enrichment) #preview result
-
-#Export result
-write.csv(output_enr$enrichment,file="enrichment.csv",row.names=FALSE)
+```{r, echo=FALSE, results='asis'}
+cat('
+<p align="center">
+  <img src="fig13.png" style="max-width:100%; height:auto;"><br>
+  <em>Figure 13. Enrichment analysis</em>
+</p>
+')
 ```
 
+**Output:** The results table contains statistical values for each pathway, along with the list of pathway members.
